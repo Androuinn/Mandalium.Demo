@@ -1,5 +1,6 @@
 ﻿using Mandalium.Core.Context;
 using Mandalium.Core.Interfaces;
+using Mandalium.Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,11 @@ namespace Mandalium.Infrastructure.Repositories
             return await _dbSet.ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAll(ISpecification<T> specification = null)
+        {
+            return await ApplySpecification(specification).ToListAsync();
+        }
+
         public async Task Save(T entity)
         {
             await _dbSet.AddAsync(entity);
@@ -50,6 +56,13 @@ namespace Mandalium.Infrastructure.Repositories
                 _dbSet.Attach(entity);
                 _context.Entry(entity).State = EntityState.Modified;
             });
+        }
+
+
+
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_dbSet.AsQueryable(), spec);
         }
     }
 }

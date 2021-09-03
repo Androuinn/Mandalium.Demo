@@ -7,6 +7,7 @@ namespace Mandalium.Core.Interfaces
     {
         Task<T> Get<Type>(Type id);
         Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(ISpecification<T> specification = null);
         Task Delete<Type>(Type id);
         Task Update(T entity);
         Task Save(T entity);

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Mandalium.Models.DomainModels
 {
-    public class Topic : BaseEntityWithId, IBaseEntityWithDate
+    public interface IBaseEntityWithDate
     {
-        public string Name { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DateTime ModifiedOn { get; set; }

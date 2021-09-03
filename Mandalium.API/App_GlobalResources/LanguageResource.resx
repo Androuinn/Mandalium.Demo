@@ -129,4 +129,7 @@
   <data name="System_Initialize_Exception" xml:space="preserve">
     <value>An error has occured while initializing the system.</value>
   </data>
+  <data name="Topic_NotFound" xml:space="preserve">
+    <value>Girilen konu(topic) sistemde bulunamadı.</value>
+  </data>
 </root>

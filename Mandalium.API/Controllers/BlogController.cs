@@ -3,6 +3,7 @@ using Mandalium.API.App_Code;
 using Mandalium.API.App_GlobalResources;
 using Mandalium.Core.Helpers;
 using Mandalium.Core.Interfaces;
+using Mandalium.Infrastructure.Specifications;
 using Mandalium.Models.DomainModels;
 using Mandalium.Models.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -32,11 +33,10 @@ namespace Mandalium.API.Controllers
         {
             try
             {
-
                 IEnumerable<Blog> blogs = await _memoryCache.GetOrCreateAsync(CacheKeys.GetAllBlogsKey, entry =>
                 {
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                    return _blogRepository.GetAll();
+                    return _blogRepository.GetAll(new GenericSpecification<Blog>(true,(x=> x.Topic), x=> x.Id == 2));
                 });
 
                 if (blogs == null || !blogs.Any())
@@ -44,7 +44,7 @@ namespace Mandalium.API.Controllers
                     return NoContent();
                 }
 
-                return Ok(_mapper.Map<BlogDto>(blogs));
+                return Ok(_mapper.Map<IEnumerable<BlogDto>>(blogs));
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace Mandalium.API.Controllers
             try
             {
                 var blog = await _blogRepository.Get(id);
-                if (blog == null)
+                if (blog == null || blog.PublishStatus == Models.Enums.PublishStatus.Deleted)
                 {
                     return NoContent();
                 }
@@ -82,13 +82,26 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Blog blog)
+        public async Task<IActionResult> Create(BlogDto blogDto)
         {
             try
             {
+                Blog blog = _mapper.Map<Blog>(blogDto);
+                Topic topic = await _unitOfWork.GetRepository<Topic>().Get(blogDto.TopicId);
+                if (topic == null)
+                {
+                    return StatusCode(StatusCodes.Status204NoContent);
+                }
+
+                blog.Topic = topic;
+                blog.TopicId = topic.Id;
+
                 await _blogRepository.Save(blog);
                 await _unitOfWork.Save();
-                return Ok(blog);
+
+                _memoryCache.Remove(CacheKeys.GetAllBlogsKey);
+
+                return StatusCode(StatusCodes.Status200OK);
             }
             catch (Exception ex)
             {

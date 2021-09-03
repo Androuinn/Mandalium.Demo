@@ -95,5 +95,14 @@ namespace Mandalium.API.App_GlobalResources {
                 return ResourceManager.GetString("System_Initialize_Exception", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Girilen konu(topic) sistemde bulunamadı..
+        /// </summary>
+        internal static string Topic_NotFound {
+            get {
+                return ResourceManager.GetString("Topic_NotFound", resourceCulture);
+            }
+        }
     }
 }
