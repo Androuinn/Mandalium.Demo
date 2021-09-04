@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Mandalium.API.Controllers
@@ -29,6 +30,10 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpGet]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BlogDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -36,12 +41,12 @@ namespace Mandalium.API.Controllers
                 IEnumerable<Blog> blogs = await _memoryCache.GetOrCreateAsync(CacheKeys.GetAllBlogsKey, entry =>
                 {
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                    return _blogRepository.GetAll(new GenericSpecification<Blog>(true,(x=> x.Topic), x=> x.Id == 2));
+                    return _blogRepository.GetAll(new GenericSpecification<Blog>(true, (x => x.Topic)));
                 });
 
                 if (blogs == null || !blogs.Any())
                 {
-                    return NoContent();
+                    return NotFound();
                 }
 
                 return Ok(_mapper.Map<IEnumerable<BlogDto>>(blogs));
@@ -54,6 +59,9 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -61,7 +69,7 @@ namespace Mandalium.API.Controllers
                 var blog = await _blogRepository.Get(id);
                 if (blog == null || blog.PublishStatus == Models.Enums.PublishStatus.Deleted)
                 {
-                    return NoContent();
+                    return NotFound();
                 }
 
                 blog.PublishStatus = Models.Enums.PublishStatus.Deleted;
@@ -82,6 +90,10 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BlogDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create(BlogDto blogDto)
         {
             try
@@ -90,11 +102,13 @@ namespace Mandalium.API.Controllers
                 Topic topic = await _unitOfWork.GetRepository<Topic>().Get(blogDto.TopicId);
                 if (topic == null)
                 {
-                    return StatusCode(StatusCodes.Status204NoContent);
+                    return NotFound();
                 }
 
                 blog.Topic = topic;
                 blog.TopicId = topic.Id;
+
+                Utility.CleanXss<Blog>(blog);
 
                 await _blogRepository.Save(blog);
                 await _unitOfWork.Save();
@@ -109,6 +123,18 @@ namespace Mandalium.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, LanguageResource.General_Error_Message);
             }
         }
+
+
+#if DEBUG
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ClearCache()
+        {
+            await Task.Run(() => { _memoryCache.Remove(CacheKeys.GetAllBlogsKey); });
+
+            return Ok();
+        }
+
+#endif
 
 
     }
