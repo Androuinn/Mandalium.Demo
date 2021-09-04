@@ -20,11 +20,14 @@ namespace Mandalium.API.Controllers
          
         }
 
-        public BaseController(IUnitOfWork unitOfWork, IMemoryCache memoryCache, IMapper mapper)
+        public BaseController(IUnitOfWork unitOfWork, IMemoryCache memoryCache = null, IMapper mapper = null)
         {
             _unitOfWork = unitOfWork;
-            _memoryCache = memoryCache;
-            _mapper = mapper;
+            if (memoryCache != null)
+                _memoryCache = memoryCache;
+
+            if (mapper != null)
+                _mapper = mapper;
         }
 
 

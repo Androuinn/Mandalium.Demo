@@ -19,6 +19,7 @@ namespace Mandalium.Core.Context
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<SystemAuthenticationKey> SystemAuthenticationKeys { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

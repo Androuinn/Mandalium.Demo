@@ -1,5 +1,6 @@
 ﻿using Mandalium.Models.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace Mandalium.Models.DomainModels
 {
@@ -21,6 +22,8 @@ namespace Mandalium.Models.DomainModels
 
         public int TopicId { get; set; }
         public virtual Topic Topic { get; set; }
+
+        public ICollection<Comment> Comments{ get; set; }
 
 
         #endregion

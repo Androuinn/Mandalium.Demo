@@ -9,21 +9,17 @@ using System.Threading.Tasks;
 
 namespace Mandalium.Models.Mapping
 {
-    public class BlogMapping : IEntityTypeConfiguration<Blog>
+    public class CommentMapping : IEntityTypeConfiguration<Comment>
     {
-        public void Configure(EntityTypeBuilder<Blog> builder)
+        public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).IsRequired();
-            builder.Property(p => p.Headline).IsRequired().HasColumnType("nvarchar(200)").HasMaxLength(200);
-            builder.Property(p => p.SubHeadline).IsRequired().HasColumnType("nvarchar(500)").HasMaxLength(500);
-            builder.Property(p => p.CodeArea).IsRequired().HasColumnType("nvarchar(MAX)");
-            builder.Property(p => p.ImageUrl).HasColumnType("nvarchar(500)").HasMaxLength(500);
+            builder.Property(p => p.CodeArea).IsRequired().HasColumnType("nvarchar(4000)").HasMaxLength(4000);
             builder.Property(p => p.CreatedBy).HasColumnType("nvarchar(50)").HasMaxLength(50);
             builder.Property(p => p.ModifiedBy).HasColumnType("nvarchar(50)").HasMaxLength(50);
 
-            builder.HasOne(p => p.Topic);
-            builder.HasMany(p => p.Comments).WithOne(p => p.Blog).HasForeignKey(x => x.BlogId);
+            builder.HasOne(p => p.Blog);
             builder.Property(x => x.CreatedOn).HasDefaultValueSql("GETDATE()").IsRequired();
         }
     }

@@ -10,6 +10,11 @@ namespace Mandalium.Infrastructure.Specifications
 {
     public class GenericSpecification<T> : BaseSpecification<T> where T : class
     {
+        public GenericSpecification(Expression<Func<T, bool>> criteria = null) : base(criteria)
+        {
+
+        }
+
         public GenericSpecification(bool addIncludes, Expression<Func<T, object>> includeExpression, Expression<Func<T, bool>> criteria = null) : base(criteria)
         {
             if (addIncludes)
