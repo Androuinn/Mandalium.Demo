@@ -1,13 +1,8 @@
-﻿using Mandalium.API.App_GlobalResources;
-using Mandalium.Core.Helpers;
-using Mandalium.Core.Interfaces;
-using Mandalium.Models.DomainModels;
+﻿using Mandalium.Core.Abstractions.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace App_Code.Middlewares
@@ -32,9 +27,9 @@ namespace App_Code.Middlewares
 
 
 
-        #if DEBUG
+#if DEBUG
             // do nothing
-        #else
+#else
             string apikey = httpContext.Request.Headers["ApiKey"];
 
             if (string.IsNullOrEmpty(apikey) || _unitOfWork.GetRepository<SystemAuthenticationKey>().Get("ApiKey").Result.Value != Utility.ReplaceCharactersWithWhiteSpace(new string[] { "{", "}" }, apikey))
@@ -43,7 +38,7 @@ namespace App_Code.Middlewares
                 httpContext.Response.WriteAsync(LanguageResource.Api_Authorization_Failed);
                 return Task.Run(() => { return httpContext; });
             }
-        #endif
+#endif
             return _next(httpContext);
 
         }

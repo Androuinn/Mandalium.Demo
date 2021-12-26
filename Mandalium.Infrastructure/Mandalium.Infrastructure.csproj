@@ -1,11 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Mandalium.Core\Mandalium.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mandalium.Core.Abstractions">
+      <HintPath>..\lib\Mandalium.Core.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Mandalium.Core.Persistence">
+      <HintPath>..\lib\Mandalium.Core.Persistence.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Specifications\Helpers\" />
   </ItemGroup>
 
 </Project>

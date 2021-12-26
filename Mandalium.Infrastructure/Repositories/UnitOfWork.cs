@@ -1,17 +1,15 @@
-﻿using Mandalium.Core.Context;
-using Mandalium.Core.Interfaces;
+﻿using Mandalium.Core.Abstractions.Interfaces;
+using Mandalium.Core.Context;
+using Mandalium.Core.Persisence.Repositories;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Mandalium.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DataContext _context;
+        private readonly DataContext _context;
         private Hashtable _repositories;
 
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Mandalium.API.App_Code;
 using Mandalium.API.App_GlobalResources;
+using Mandalium.Core.Abstractions.Interfaces;
 using Mandalium.Core.Helpers;
-using Mandalium.Core.Interfaces;
 using Mandalium.Infrastructure.Specifications;
 using Mandalium.Models.DomainModels;
 using Mandalium.Models.Dtos;

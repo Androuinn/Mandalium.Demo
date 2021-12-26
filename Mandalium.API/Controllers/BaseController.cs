@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Mandalium.Core.Interfaces;
+using Mandalium.Core.Abstractions.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;

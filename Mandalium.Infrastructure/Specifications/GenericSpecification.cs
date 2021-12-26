@@ -1,10 +1,7 @@
-﻿using Mandalium.Models.Enums;
+﻿using Mandalium.Core.Persisence.Specifications;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mandalium.Infrastructure.Specifications
 {
@@ -24,7 +21,7 @@ namespace Mandalium.Infrastructure.Specifications
         }
 
 
-        public GenericSpecification(bool addIncludes, List<Expression<Func<T, object>>> includeExpressionList, Expression<Func<T, bool>> criteria) : base (criteria)
+        public GenericSpecification(bool addIncludes, List<Expression<Func<T, object>>> includeExpressionList, Expression<Func<T, bool>> criteria) : base(criteria)
         {
             if (addIncludes)
             {

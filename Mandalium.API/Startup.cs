@@ -1,8 +1,8 @@
 using App_Code.Middlewares;
 using Mandalium.API.App_Code.Swagger;
 using Mandalium.API.AutoMapperProfiles;
+using Mandalium.Core.Abstractions.Interfaces;
 using Mandalium.Core.Context;
-using Mandalium.Core.Interfaces;
 using Mandalium.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
