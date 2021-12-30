@@ -1,10 +1,12 @@
-﻿using Mandalium.Models.Enums;
+﻿using Mandalium.Core.Model.Abstractions;
+using Mandalium.Core.Model.Abstractions.Interfaces;
+using Mandalium.Models.Enums;
 using System;
 using System.Collections.Generic;
 
 namespace Mandalium.Models.DomainModels
 {
-    public class Blog : BaseEntityWithId, IBaseEntityWithDate
+    public class Blog : BaseEntityWithId<int>, IBaseEntityWithDate
     {
         public string Headline { get; set; }
         public string SubHeadline { get; set; }
@@ -12,9 +14,9 @@ namespace Mandalium.Models.DomainModels
         public PublishStatus PublishStatus { get; set; }
         public string ImageUrl { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
 
 
