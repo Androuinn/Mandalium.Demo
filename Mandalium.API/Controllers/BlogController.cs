@@ -3,7 +3,7 @@ using Mandalium.API.App_Code;
 using Mandalium.API.App_GlobalResources;
 using Mandalium.Core.Abstractions.Interfaces;
 using Mandalium.Core.Helpers;
-using Mandalium.Infrastructure.Specifications;
+using Mandalium.Core.Persisence.Specifications;
 using Mandalium.Models.DomainModels;
 using Mandalium.Models.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -47,7 +47,7 @@ namespace Mandalium.API.Controllers
                 IEnumerable<Blog> blogs = await _memoryCache.GetOrCreateAsync(CacheKeys.GetAllBlogsKey, entry =>
                 {
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                    return _blogRepository.GetAll(new GenericSpecification<Blog>(true, (x => x.Topic),(x=> x.PublishStatus == Models.Enums.PublishStatus.Published)));
+                    return _blogRepository.GetAll(new GenericSpecification<Blog>((x => x.Topic),(x=> x.PublishStatus == Models.Enums.PublishStatus.Published)));
                 });
 
                 if (blogs == null || !blogs.Any())

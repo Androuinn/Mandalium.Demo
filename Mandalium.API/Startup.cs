@@ -3,7 +3,7 @@ using Mandalium.API.App_Code.Swagger;
 using Mandalium.API.AutoMapperProfiles;
 using Mandalium.Core.Abstractions.Interfaces;
 using Mandalium.Core.Context;
-using Mandalium.Infrastructure.Repositories;
+using Mandalium.Core.Persisence.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -87,7 +87,7 @@ namespace Mandalium.API
 
         public void AddUnitOfWork(IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork<DataContext>>();
         }
 
         public void AddSwagger(IServiceCollection services)
