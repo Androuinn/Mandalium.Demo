@@ -1,10 +1,8 @@
 
 using Mandalium.Models.DomainModels;
-using Mandalium.Models.Mapping;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Reflection;
 
 namespace Mandalium.Core.Context
 {
@@ -18,7 +16,6 @@ namespace Mandalium.Core.Context
 
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Topic> Topics { get; set; }
-        public DbSet<SystemAuthenticationKey> SystemAuthenticationKeys { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
 

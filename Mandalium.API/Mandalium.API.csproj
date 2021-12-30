@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mandalium.Core\Mandalium.Core.csproj" />
-    <ProjectReference Include="..\Mandalium.Infrastructure\Mandalium.Infrastructure.csproj" />
+    <ProjectReference Include="..\Mandalium.Core\Mandalium.Demo.Core.csproj" />
+    <ProjectReference Include="..\Mandalium.Infrastructure\Mandalium.Demo.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

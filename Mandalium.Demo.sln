@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandalium.Core", "Mandalium.Core\Mandalium.Core.csproj", "{FDE0BF5F-AB80-4C2E-BB48-90FBAF71899F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandalium.Demo.Core", "Mandalium.Core\Mandalium.Demo.Core.csproj", "{FDE0BF5F-AB80-4C2E-BB48-90FBAF71899F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandalium.Infrastructure", "Mandalium.Infrastructure\Mandalium.Infrastructure.csproj", "{9E98B257-087E-4939-BF09-1CD80F6000CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandalium.Demo.Infrastructure", "Mandalium.Infrastructure\Mandalium.Demo.Infrastructure.csproj", "{9E98B257-087E-4939-BF09-1CD80F6000CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandalium.API", "Mandalium.API\Mandalium.API.csproj", "{9F14D10B-D45A-42F6-A93C-7DF125CFA8A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandalium.API", "Mandalium.API\Mandalium.API.csproj", "{9F14D10B-D45A-42F6-A93C-7DF125CFA8A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandalium.Models", "Mandalium.Models\Mandalium.Models.csproj", "{8831FF94-BC7B-4B1A-9BE6-A8A6F8D251B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandalium.Demo.Models", "Mandalium.Models\Mandalium.Demo.Models.csproj", "{8831FF94-BC7B-4B1A-9BE6-A8A6F8D251B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

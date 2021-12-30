@@ -77,7 +77,7 @@ namespace Mandalium.API
 
         public void AddDbContext(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(d => d.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), m => m.MigrationsAssembly("Mandalium.Core")));
+            services.AddDbContext<DataContext>(d => d.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), m => m.MigrationsAssembly("Mandalium.Demo.Core")));
         }
 
         public void AddControllers(IServiceCollection services)

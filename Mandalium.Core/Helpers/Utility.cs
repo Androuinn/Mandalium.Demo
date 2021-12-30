@@ -1,17 +1,13 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace Mandalium.Core.Helpers
 {
     public static class Utility
     {
-
         public static void ReportError(Exception exception)
         {
             ReportError(exception, string.Empty);
@@ -58,7 +54,7 @@ namespace Mandalium.Core.Helpers
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty((string) propertyInfo.GetValue(entity, null)))
+                if (!string.IsNullOrEmpty((string)propertyInfo.GetValue(entity, null)))
                 {
                     propertyInfo.SetValue(entity, Utility.CleanXss((string)propertyInfo.GetValue(entity, null)));
                 }

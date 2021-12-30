@@ -12,7 +12,6 @@ namespace Mandalium.Infrastructure.Repositories
         private readonly DataContext _context;
         private Hashtable _repositories;
 
-
         public UnitOfWork(DataContext context)
         {
             _context = context;

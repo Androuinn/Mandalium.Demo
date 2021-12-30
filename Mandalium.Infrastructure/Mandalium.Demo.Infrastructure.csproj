@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mandalium.Core\Mandalium.Core.csproj" />
+    <ProjectReference Include="..\Mandalium.Core\Mandalium.Demo.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

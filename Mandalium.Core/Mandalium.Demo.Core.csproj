@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mandalium.Models\Mandalium.Models.csproj" />
+    <ProjectReference Include="..\Mandalium.Models\Mandalium.Demo.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Helpers\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
  
