@@ -3,7 +3,7 @@ using Mandalium.API.App_Code;
 using Mandalium.API.App_GlobalResources;
 using Mandalium.Core.Abstractions.Interfaces;
 using Mandalium.Core.Helpers;
-using Mandalium.Core.Persisence.Specifications;
+using Mandalium.Core.Persistence.Specifications;
 using Mandalium.Models.DomainModels;
 using Mandalium.Models.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +22,6 @@ namespace Mandalium.API.Controllers
     public class BlogController : BaseController
     {
 
-        //TODO DB defaults dont work. Also lengths doesnt apply
         private readonly IGenericRepository<Blog> _blogRepository;
         private readonly IGenericRepository<Topic> _topicRepository;
         private readonly IGenericRepository<Comment> _commentRepository;
@@ -44,13 +43,17 @@ namespace Mandalium.API.Controllers
         {
             try
             {
-                IEnumerable<Blog> blogs = await _memoryCache.GetOrCreateAsync(CacheKeys.GetAllBlogsKey, entry =>
+                var blogs = await _memoryCache.GetOrCreateAsync(CacheKeys.GetAllBlogsKey, entry =>
                 {
+                    int pageIndex = 1;
+                    int pageSize = 20;
+                    var specification = new PagedSpecification<Blog>(pageIndex, pageSize);
+
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                    return _blogRepository.GetAll(new GenericSpecification<Blog>((x => x.Topic),(x=> x.PublishStatus == Models.Enums.PublishStatus.Published)));
+                    return _blogRepository.GetAllPaged(specification);
                 });
 
-                if (blogs == null || !blogs.Any())
+                if (blogs == null || !blogs.Collection.Any())
                 {
                     return NotFound();
                 }

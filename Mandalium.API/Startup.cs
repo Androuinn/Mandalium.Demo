@@ -3,7 +3,7 @@ using Mandalium.API.App_Code.Swagger;
 using Mandalium.API.AutoMapperProfiles;
 using Mandalium.Core.Abstractions.Interfaces;
 using Mandalium.Core.Context;
-using Mandalium.Core.Persisence.UnitOfWork;
+using Mandalium.Core.Persistence.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

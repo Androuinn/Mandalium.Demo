@@ -25,6 +25,9 @@
     <Reference Include="Mandalium.Core.Abstractions">
       <HintPath>..\lib\Mandalium.Core.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Mandalium.Core.Generic">
+      <HintPath>..\lib\Mandalium.Core.Generic.dll</HintPath>
+    </Reference>
     <Reference Include="Mandalium.Core.Persistence">
       <HintPath>..\lib\Mandalium.Core.Persistence.dll</HintPath>
     </Reference>
