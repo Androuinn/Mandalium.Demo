@@ -2,7 +2,7 @@
 using Mandalium.Core.Model.Abstractions.Interfaces;
 using System;
 
-namespace Mandalium.Models.DomainModels
+namespace Mandalium.Demo.Models.DomainModels
 {
     public class Topic : BaseEntityWithId<int>, IBaseEntityWithDate
     {

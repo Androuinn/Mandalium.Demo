@@ -1,4 +1,4 @@
-﻿namespace Mandalium.Models.Enums
+﻿namespace Mandalium.Demo.Models.Enums
 {
     public enum PublishStatus
     {

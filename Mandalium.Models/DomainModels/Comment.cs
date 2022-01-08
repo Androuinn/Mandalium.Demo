@@ -1,9 +1,9 @@
 ﻿using Mandalium.Core.Model.Abstractions;
 using Mandalium.Core.Model.Abstractions.Interfaces;
-using Mandalium.Models.Enums;
+using Mandalium.Demo.Models.Enums;
 using System;
 
-namespace Mandalium.Models.DomainModels
+namespace Mandalium.Demo.Models.DomainModels
 {
     public class Comment : BaseEntityWithId<int>, IBaseEntityWithDate
     {
@@ -21,5 +21,12 @@ namespace Mandalium.Models.DomainModels
 
         public int BlogId { get; set; }
         public Blog Blog { get; set; }
+
+        public Comment(int blogId)
+        {
+            CreatedOn = DateTime.Now;
+            BlogId = blogId;
+            IsApproved = false;
+        }
     }
 }

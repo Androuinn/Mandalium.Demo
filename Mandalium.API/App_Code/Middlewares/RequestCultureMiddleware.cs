@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace App_Code.Middlewares
+namespace Mandalium.API.App_Code.Middlewares
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class RequestCultureMiddleware

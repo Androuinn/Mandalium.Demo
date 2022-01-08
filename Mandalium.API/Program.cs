@@ -1,5 +1,5 @@
 using Mandalium.API.App_GlobalResources;
-using Mandalium.Core.Context;
+using Mandalium.Demo.Core.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

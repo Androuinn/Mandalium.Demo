@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandalium.API", "Mandalium.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandalium.Demo.Models", "Mandalium.Models\Mandalium.Demo.Models.csproj", "{8831FF94-BC7B-4B1A-9BE6-A8A6F8D251B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandalium.Demo.Core.Service", "Mnadalium.Demo.Core.Service\Mandalium.Demo.Core.Service.csproj", "{2D64CB32-2229-4345-B722-76E536E194DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8831FF94-BC7B-4B1A-9BE6-A8A6F8D251B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8831FF94-BC7B-4B1A-9BE6-A8A6F8D251B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8831FF94-BC7B-4B1A-9BE6-A8A6F8D251B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D64CB32-2229-4345-B722-76E536E194DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D64CB32-2229-4345-B722-76E536E194DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D64CB32-2229-4345-B722-76E536E194DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D64CB32-2229-4345-B722-76E536E194DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

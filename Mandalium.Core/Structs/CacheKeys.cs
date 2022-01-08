@@ -1,4 +1,4 @@
-﻿namespace Mandalium.API.App_Code
+﻿namespace Mandalium.Demo.Core
 {
     public struct CacheKeys
     {

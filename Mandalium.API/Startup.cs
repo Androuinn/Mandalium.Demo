@@ -1,23 +1,17 @@
-using App_Code.Middlewares;
+
+using Mandalium.API.App_Code.Middlewares;
 using Mandalium.API.App_Code.Swagger;
 using Mandalium.API.AutoMapperProfiles;
 using Mandalium.Core.Abstractions.Interfaces;
-using Mandalium.Core.Context;
 using Mandalium.Core.Persistence.UnitOfWork;
+using Mandalium.Demo.Core.Context;
+using Mandalium.Demo.Core.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mandalium.API
 {
@@ -35,13 +29,14 @@ namespace Mandalium.API
         {
             AddDbContext(services);
             AddControllers(services);
+            AddDomainServices(services);
             AddUnitOfWork(services);
             AddSwagger(services);
             AddMemoryCache(services);
             AddAutoMapper(services);
         }
 
-      
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,14 +46,14 @@ namespace Mandalium.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCustomExceptionHandler();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mandalium API");
                 c.DisplayRequestDuration();
             });
-
-            app.UseRequestAuthenticationMiddleware();
 
             app.UseHttpsRedirection();
 
@@ -88,6 +83,12 @@ namespace Mandalium.API
         public void AddUnitOfWork(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork<DataContext>>();
+        }
+
+        public void AddDomainServices(IServiceCollection services)
+        {
+            services.AddScoped<BlogService>();
+            services.AddScoped<CommentService>();
         }
 
         public void AddSwagger(IServiceCollection services)

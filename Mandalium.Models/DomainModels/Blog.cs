@@ -1,10 +1,10 @@
 ﻿using Mandalium.Core.Model.Abstractions;
 using Mandalium.Core.Model.Abstractions.Interfaces;
-using Mandalium.Models.Enums;
+using Mandalium.Demo.Models.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace Mandalium.Models.DomainModels
+namespace Mandalium.Demo.Models.DomainModels
 {
     public class Blog : BaseEntityWithId<int>, IBaseEntityWithDate
     {
@@ -27,8 +27,19 @@ namespace Mandalium.Models.DomainModels
 
         public ICollection<Comment> Comments{ get; set; }
 
-
         #endregion
+
+
+        #region constructor
+        public Blog() { }
+
+        public Blog(int topicId)
+        {
+            this.TopicId = topicId;
+            this.CreatedOn = DateTime.Now;
+        }
+        #endregion
+
 
     }
 }

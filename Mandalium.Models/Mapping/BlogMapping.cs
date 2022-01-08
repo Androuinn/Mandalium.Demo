@@ -1,8 +1,8 @@
-﻿using Mandalium.Models.DomainModels;
+﻿using Mandalium.Demo.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Mandalium.Models.Mapping
+namespace Mandalium.Demo.Models.Mapping
 {
     public class BlogMapping : IEntityTypeConfiguration<Blog>
     {

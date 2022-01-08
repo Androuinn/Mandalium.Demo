@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Encodings.Web;
 
-namespace Mandalium.Core.Helpers
+namespace Mandalium.Demo.Core.Helpers
 {
     public static class Utility
     {
@@ -19,7 +19,7 @@ namespace Mandalium.Core.Helpers
             if (!string.IsNullOrEmpty(message))
                 errorMessage = message;
             else
-                errorMessage = exception.StackTrace;
+                errorMessage = exception.Message + Environment.NewLine + exception.StackTrace;
 
             LogManager.GetLogger("Mandalium Nlog").Error(exception, errorMessage);
         }

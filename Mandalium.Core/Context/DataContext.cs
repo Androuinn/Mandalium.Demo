@@ -1,16 +1,14 @@
-
-using Mandalium.Models.DomainModels;
+using Mandalium.Demo.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace Mandalium.Core.Context
+namespace Mandalium.Demo.Core.Context
 {
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-
         }
 
 

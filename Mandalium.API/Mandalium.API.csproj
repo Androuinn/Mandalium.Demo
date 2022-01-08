@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -18,12 +18,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mandalium.Core\Mandalium.Demo.Core.csproj" />
-    <ProjectReference Include="..\Mandalium.Infrastructure\Mandalium.Demo.Infrastructure.csproj" />
+    <ProjectReference Include="..\Mnadalium.Demo.Core.Service\Mandalium.Demo.Core.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Mandalium.Core.Abstractions">
       <HintPath>..\lib\Mandalium.Core.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Mandalium.Core.Extensions">
+      <HintPath>..\lib\Mandalium.Core.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Mandalium.Core.Generic">
       <HintPath>..\lib\Mandalium.Core.Generic.dll</HintPath>
