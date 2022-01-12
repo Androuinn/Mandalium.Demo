@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mandalium.API.Controllers
@@ -23,13 +24,10 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpGet]
-        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BlogDto))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
         {
-            PagedCollection<BlogDto> blogs = await _blogService.GetAllPaged();
+            PagedCollection<BlogDto> blogs = await _blogService.GetAllPaged(cancellationToken);
             if (blogs.IsNull() || !blogs.Collection.Any())
                 return NotFound();
 
@@ -38,9 +36,7 @@ namespace Mandalium.API.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
             bool result = await _blogService.Delete(id);
             if (!result)
@@ -49,26 +45,20 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BlogDto))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Create(BlogDto blogDto)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BlogDto))]
+        public async Task<IActionResult> Create(BlogDto blogDto, CancellationToken cancellationToken = default)
         {
             BlogDto result = await _blogService.Create(blogDto);
             if (result.IsNull())
             {
                 return NotFound();
             }
-            return Ok(blogDto);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
-        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Update(BlogDto blogDto)
+        public async Task<IActionResult> Update(BlogDto blogDto, CancellationToken cancellationToken = default)
         {
             var result = await _blogService.Update(blogDto);
             if (!result)
@@ -80,11 +70,8 @@ namespace Mandalium.API.Controllers
 
 
         [HttpGet("[action]", Name = "{blogId}")]
-        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDto))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllComments(int blogId = 0)
+        public async Task<IActionResult> GetAllComments(int blogId = 0, CancellationToken cancellationToken = default)
         {
             PagedCollection<CommentDto> result = await _commentService.GetCommentsPaged(blogId, 1, 20);
             if (result.IsNull())
@@ -94,30 +81,25 @@ namespace Mandalium.API.Controllers
         }
 
         [HttpPost("[action]")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDto))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateComment(CommentDto commentDto)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommentDto))]
+        public async Task<IActionResult> CreateComment(CommentDto commentDto, CancellationToken cancellationToken = default)
         {
             var result = await _commentService.CreateComment(commentDto);
             if (result.IsNull())
                 return NotFound();
 
-            return Ok(commentDto);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
 
         [HttpDelete("[action]", Name = "{commentId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteComment(int commentId)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken = default)
         {
             var result = await _commentService.DeleteComment(commentId);
             if (!result)
                 return NotFound();
-            return StatusCode(StatusCodes.Status200OK);
+            return NoContent();
         }
 
 

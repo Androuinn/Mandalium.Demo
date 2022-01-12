@@ -22,7 +22,7 @@ namespace Mandalium.Demo.Core.Service.Services
             _commentRepository = _unitOfWork.GetRepository<Comment>();
         }
 
-        public async Task<PagedCollection<BlogDto>> GetAllPaged()
+        public async Task<PagedCollection<BlogDto>> GetAllPaged(CancellationToken cancellationToken = default)
         {
             PagedCollection<BlogDto> dtos = new PagedCollection<BlogDto>();
             try
@@ -34,7 +34,7 @@ namespace Mandalium.Demo.Core.Service.Services
                     var specification = new PagedSpecification<Blog>(pageIndex, pageSize);
 
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                    return _blogRepository.GetAllPaged(specification);
+                    return _blogRepository.GetAllPaged(specification, cancellationToken);
                 });
 
                 return _mapper.Map<PagedCollection<BlogDto>>(blogs);
@@ -46,11 +46,14 @@ namespace Mandalium.Demo.Core.Service.Services
             return dtos;
         }
 
-        public async Task<BlogDto> Create(BlogDto blogDto)
+        public async Task<BlogDto> Create(BlogDto blogDto, CancellationToken cancellationToken = default)
         {
             try
             {
-                Topic topic = await _topicRepository.Get(blogDto.TopicId);
+                if (blogDto.IsNull())
+                    return null;
+
+                Topic topic = await _topicRepository.Get(blogDto.TopicId, cancellationToken);
                 if (topic.IsNull())
                     return null;
 
@@ -58,8 +61,8 @@ namespace Mandalium.Demo.Core.Service.Services
 
                 Utility.CleanXss<Blog>(blog);
 
-                await _blogRepository.Save(blog);
-                await _unitOfWork.Save();
+                await _blogRepository.Save(blog, cancellationToken);
+                await _unitOfWork.Save(cancellationToken);
 
                 _memoryCache.Remove(CacheKeys.GetAllBlogsKey);
 
@@ -74,12 +77,15 @@ namespace Mandalium.Demo.Core.Service.Services
         }
 
 
-        public async Task<bool> Update(BlogDto blogDto)
+        public async Task<bool> Update(BlogDto blogDto , CancellationToken cancellationToken = default)
         {
             try
             {
-                Blog blog = await _blogRepository.Get(blogDto.Id);
-                Topic topic = await _topicRepository.Get(blogDto.TopicId);
+                if (blogDto.IsNull())
+                    return false;
+
+                Blog blog = await _blogRepository.Get(blogDto.Id, cancellationToken);
+                Topic topic = await _topicRepository.Get(blogDto.TopicId, cancellationToken);
                 if (blog.IsNull() || topic.IsNull())
                     return false;
 
@@ -87,9 +93,9 @@ namespace Mandalium.Demo.Core.Service.Services
 
                 blog = _mapper.Map<Blog>(blogDto);
 
-                await _blogRepository.Detach(blog);
-                await _blogRepository.Update(blog);
-                await _unitOfWork.Save();
+                await _blogRepository.Detach(blog, cancellationToken);
+                await _blogRepository.Update(blog, cancellationToken);
+                await _unitOfWork.Save(cancellationToken);
 
                 _memoryCache.Remove(CacheKeys.GetAllBlogsKey);
             }
@@ -102,18 +108,18 @@ namespace Mandalium.Demo.Core.Service.Services
         }
 
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id , CancellationToken cancellationToken = default)
         {
             try
             {
-                var blog = await _blogRepository.Get(id);
+                var blog = await _blogRepository.Get(id, cancellationToken);
                 if (blog == null || blog.PublishStatus == Models.Enums.PublishStatus.Deleted)
                     return false;
 
                 blog.PublishStatus = Models.Enums.PublishStatus.Deleted;
 
-                await _blogRepository.Update(blog);
-                await _unitOfWork.Save();
+                await _blogRepository.Update(blog, cancellationToken);
+                await _unitOfWork.Save(cancellationToken);
 
                 _memoryCache.Remove(CacheKeys.GetAllBlogsKey);
             }

@@ -51,7 +51,7 @@ namespace Mandalium.API
                 }).ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
+                    logging.SetMinimumLevel(LogLevel.Error);
                 }).UseNLog();
     }
 }

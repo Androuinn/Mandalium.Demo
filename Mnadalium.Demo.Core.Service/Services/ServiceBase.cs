@@ -12,14 +12,20 @@ namespace Mandalium.Demo.Core.Service.Services
 
         protected ServiceBase() { }
 
-        protected ServiceBase(IUnitOfWork unitOfWork, IMemoryCache memoryCache = null, IMapper mapper = null)
+        protected ServiceBase(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+
+
+        protected ServiceBase(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            if (memoryCache != null)
-                _memoryCache = memoryCache;
+            _mapper = mapper;
+        }
 
-            if (mapper != null)
-                _mapper = mapper;
+        protected ServiceBase(IUnitOfWork unitOfWork, IMemoryCache memoryCache, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _memoryCache = memoryCache;
+            _mapper = mapper;
         }
 
 

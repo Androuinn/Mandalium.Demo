@@ -6,11 +6,6 @@ using Mandalium.Demo.Core.Helpers;
 using Mandalium.Demo.Models.DomainModels;
 using Mandalium.Demo.Models.Dtos;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mandalium.Demo.Core.Service.Services
 {
@@ -27,12 +22,12 @@ namespace Mandalium.Demo.Core.Service.Services
             _commentRepository = _unitOfWork.GetRepository<Comment>();
         }
 
-        public async Task<PagedCollection<CommentDto>> GetCommentsPaged(int blogId, int pageIndex, int pageSize)
+        public async Task<PagedCollection<CommentDto>> GetCommentsPaged(int blogId, int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
             PagedCollection<CommentDto> dtos = new PagedCollection<CommentDto>();
             try
             {
-                Blog blog = await _blogRepository.Get(blogId);
+                Blog blog = await _blogRepository.Get(blogId, cancellationToken);
 
                 if (blog.IsNull() || blogId == 0 || blog.PublishStatus == Models.Enums.PublishStatus.Deleted)
                     return dtos;
@@ -40,7 +35,7 @@ namespace Mandalium.Demo.Core.Service.Services
                 var comments = await _memoryCache.GetOrCreateAsync(string.Format(CacheKeys.CommentKey, blogId), entry =>
                 {
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                    return _commentRepository.GetAllPaged(new PagedSpecification<Comment>(pageIndex, pageSize, x => x.BlogId == blogId && x.PublishStatus == Models.Enums.PublishStatus.Published));
+                    return _commentRepository.GetAllPaged(new PagedSpecification<Comment>(pageIndex, pageSize, x => x.BlogId == blogId && x.PublishStatus == Models.Enums.PublishStatus.Published), cancellationToken);
                 });
                 dtos = _mapper.Map<PagedCollection<CommentDto>>(comments);
             }
@@ -52,19 +47,22 @@ namespace Mandalium.Demo.Core.Service.Services
             return dtos;
         }
 
-        public async Task<CommentDto> CreateComment(CommentDto commentDto)
+        public async Task<CommentDto> CreateComment(CommentDto commentDto, CancellationToken cancellationToken = default)
         {
             try
             {
-                Blog blog = await _blogRepository.Get(commentDto.BlogId);
+                if (commentDto.IsNull())
+                    return null;
+
+                Blog blog = await _blogRepository.Get(commentDto.BlogId, cancellationToken);
                 if (blog.IsNull())
                     return null;
 
                 Comment comment = _mapper.Map<Comment>(commentDto);
                 Utility.CleanXss<Comment>(comment);
 
-                await _commentRepository.Save(comment);
-                await _unitOfWork.Save();
+                await _commentRepository.Save(comment, cancellationToken);
+                await _unitOfWork.Save(cancellationToken);
 
                 _memoryCache.Remove(string.Format(CacheKeys.CommentKey, commentDto.BlogId));
 
@@ -77,19 +75,19 @@ namespace Mandalium.Demo.Core.Service.Services
             return commentDto;
         }
 
-        public async Task<bool> DeleteComment(int id)
+        public async Task<bool> DeleteComment(int id, CancellationToken cancellationToken = default)
         {
             try
             {
-                Comment comment = await _commentRepository.Get(id);
+                Comment comment = await _commentRepository.Get(id, cancellationToken);
                 if (comment.IsNull() || comment.PublishStatus == Models.Enums.PublishStatus.Deleted)
                     return false;
 
                 comment.PublishStatus = Models.Enums.PublishStatus.Deleted;
 
-                await _commentRepository.Detach(comment);
-                await _commentRepository.Update(comment);
-                await _unitOfWork.Save();
+                await _commentRepository.Detach(comment, cancellationToken);
+                await _commentRepository.Update(comment, cancellationToken);
+                await _unitOfWork.Save(cancellationToken);
 
                 _memoryCache.Remove(string.Format(CacheKeys.CommentKey, comment.BlogId));
             }
